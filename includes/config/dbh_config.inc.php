@@ -31,12 +31,9 @@ class Database {
 
         try {
             $this->conn = new PDO($dsn, $dbuser, $dbpass, $options);
-        } catch (PDOException $e) {
-            // TEMPORARILY SHOW ERROR TO DEBUG
-            die("❌ Connection failed: " . $e->getMessage() . "<br><br>Trying to connect to: Host=$host, Port=$port, DB=$dbname, User=$dbuser");
-            
-            // error_log("Database connection failed: " . $e->getMessage());
-            // die("A database error occurred. Please try again later.");
+                } catch (PDOException $e) {
+            error_log("Database connection failed: " . $e->getMessage());
+            die("A database error occurred. Please try again later.");
         }
 
         return $this->conn;

@@ -1,28 +1,28 @@
 <?php
-/**
- * Logout Processing
- * Destroys session and clears remember me cookie
- */
+if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) { setFlash('error', 'Invalid request.'); redirect('login.php'); }
 
-if (isLoggedIn()) {
-    // Clear remember token from database
-    require_once __DIR__ . '/../model/User_model.inc.php';
+ $phone      = sanitize($_POST['phone'] ?? '');
+ $password   = $_POST['password'] ?? '';
+ $remember   = isset($_POST['remember']);
+ $errors = [];
+if (empty($phone)) $errors['phone'] = 'Phone number is required.';
+if (empty($password)) $errors['password'] = 'Password is required.';
+
+if (empty($errors)) {
+    // FIX: Lowercase 'user_model'
+    require_once __DIR__ . '/../model/user_model.inc.php';
     $userModel = new User();
-    $userModel->clearRememberToken($_SESSION['user_id']);
-
-    // Clear remember me cookie
-    if (isset($_COOKIE['remember_token'])) {
-        setcookie('remember_token', '', time() - 3600, '/', '', false, true);
-        unset($_COOKIE['remember_token']);
-    }
-
-    // Clear session
-    clearUserSession();
-    session_regenerate_id(true);
-    session_destroy();
+    $result = $userModel->login($phone, $password);
+    if ($result['success']) {
+        $user = $result['user'];
+        setUserSession($user);
+        if ($remember) {
+            $token = bin2hex(random_bytes(32));
+            $userModel->setRememberToken($user['id'], $token);
+            setcookie('remember_token', $token, time() + (86400 * 30), '/', '', false, true);
+        }
+        session_regenerate_id(true);
+        setFlash('success', 'Welcome back!'); redirect('dashboard.php');
+    } else $errors['general'] = $result['message'];
 }
-
-// Start fresh session for flash message
-session_start();
-setFlash('success', 'You have been logged out successfully.');
-redirect('login.php');
+ $old = ['phone' => $phone];
