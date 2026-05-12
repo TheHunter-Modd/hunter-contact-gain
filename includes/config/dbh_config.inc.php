@@ -38,13 +38,10 @@ class Database {
 
         try {
             $this->conn = new PDO($dsn, $dbuser, $dbpass, $options);
-        } catch (PDOException $e) {
-            // TEMPORARILY SHOW ERROR TO DEBUG
-            die("❌ Connection failed: " . $e->getMessage());
-            
-            // (This was the old line, we'll restore it later)
-            // error_log("Database connection failed: " . $e->getMessage());
-            // die("A database error occurred. Please try again later.");
+                } catch (PDOException $e) {
+            // HIDE the error again for security
+            error_log("Database connection failed: " . $e->getMessage());
+            die("A database error occurred. Please try again later.");
         }
 
         return $this->conn;
