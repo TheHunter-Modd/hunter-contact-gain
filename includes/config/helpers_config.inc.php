@@ -76,10 +76,16 @@ function sanitize($data) {
 // ============================================================
 function redirect($url) {
     if (ob_get_level()) ob_end_clean();
+    
+    // FIX: Force PHP to save the session to disk before redirecting!
+    // This prevents the "immediate logout" race condition on cloud servers.
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        session_write_close();
+    }
+    
     header("Location: $url");
     exit();
 }
-
 // ============================================================
 // FLASH MESSAGES
 // ============================================================
