@@ -5,7 +5,7 @@
  * Validates input and creates user account
  */
 
-require_once __DIR__ . '/../model/User_model.inc.php';
+require_once __DIR__ . '/../model/user_model.inc.php';
 
 // Verify CSRF token
 if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
