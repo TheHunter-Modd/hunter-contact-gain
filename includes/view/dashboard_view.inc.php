@@ -13,6 +13,7 @@
  $allBatches    = $data['all_batches'] ?? [];
  $memberType    = $data['member_type'] ?? 'new';
  $daysLeft      = $data['days_left'] ?? null;
+ $whatsappLink  = $data['whatsapp_link'] ?? '';
 
 if (!$user) return;
 ?>
