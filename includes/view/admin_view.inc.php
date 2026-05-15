@@ -18,6 +18,25 @@
             </div>
         </div>
 
+                <!-- WHATSAPP GROUP LINK MANAGEMENT -->
+        <div class="dash-section">
+            <h2 class="dash-section__title">💬 WhatsApp Group Link</h2>
+            <div class="card">
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                    This link is hidden from unverified users and revealed on the dashboard once they become verified.
+                </p>
+                <form action="admin.php" method="POST" class="form">
+                    <?php echo csrfField(); ?>
+                    <input type="hidden" name="action" value="update_whatsapp_link">
+                    <div class="form__group">
+                        <label class="form__label">Verified Members Group Invite Link</label>
+                        <input type="url" name="whatsapp_link" class="form__input" value="<?php echo htmlspecialchars($whatsappLink ?? ''); ?>" placeholder="https://chat.whatsapp.com/..." required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--sm">Update Link</button>
+                </form>
+            </div>
+        </div>
+
         <!-- BATCH MANAGEMENT -->
         <div class="dash-section">
             <h2 class="dash-section__title">📦 Batch Management</h2>

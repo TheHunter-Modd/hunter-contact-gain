@@ -128,6 +128,21 @@ if (!$user) return;
         </div>
         <?php endif; ?>
 
+                <!-- ============ EXCLUSIVE WHATSAPP GROUP ============ -->
+        <?php if ($isVerified && !empty($whatsappLink) && $whatsappLink !== 'https://chat.whatsapp.com/DEFAULT'): ?>
+        <div class="dash-section">
+            <h2 class="dash-section__title">💬 Exclusive Verified Group</h2>
+            <div class="card card--verified" style="text-align: center;">
+                <div class="card__icon">🚀</div>
+                <h3 class="card__title" style="font-size: 1.1rem; margin-bottom: 0.5rem;">Join the Verified Hunters Group!</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.25rem;">Network exclusively with other verified members.</p>
+                <a href="<?php echo htmlspecialchars($whatsappLink); ?>" target="_blank" class="btn btn--primary">
+                    Join WhatsApp Group 💬
+                </a>
+            </div>
+        </div>
+        <?php endif; ?>
+
         <!-- BATCH HISTORY -->
         <?php if (!empty($allBatches)): ?>
         <div class="dash-section">
